@@ -1,5 +1,5 @@
 {
-  "domain": "smarwi-lukyer",
+  "domain": "smarwi",
   "name": "SMARWI Lukyer",
   "codeowners": ["@lukyer"],
   "config_flow": true,

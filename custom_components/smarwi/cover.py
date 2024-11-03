@@ -48,10 +48,10 @@ class SmarwiCover(SmarwiEntity, CoverEntity):
     )  # pyright:ignore[reportCallIssue]
 
     _attr_supported_features = (
-        CoverEntityFeature.OPEN_TILT
-        | CoverEntityFeature.CLOSE_TILT
-        | CoverEntityFeature.STOP_TILT
-        | CoverEntityFeature.SET_TILT_POSITION
+        CoverEntityFeature.OPEN
+        | CoverEntityFeature.CLOSE
+        | CoverEntityFeature.STOP
+        | CoverEntityFeature.SET_POSITION
     )
 
     def __init__(self, device: SmarwiDevice):
@@ -92,30 +92,30 @@ class SmarwiCover(SmarwiEntity, CoverEntity):
 
     @property  # superclass uses @cached_property, but that doesn't work here [1]
     @override
-    def current_cover_tilt_position(self) -> int | None:  # pyright:ignore[reportIncompatibleVariableOverride]
+    def current_cover_position(self) -> int | None:  # pyright:ignore[reportIncompatibleVariableOverride]
         return self._position if self._position >= 0 else None
 
     @override
-    async def async_open_cover_tilt(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
+    async def async_open_cover(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
         if self._position != 100:
             self._requested_position = 100
             await self.device.async_open()
 
     @override
-    async def async_close_cover_tilt(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
+    async def async_close_cover(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
         if self._position != 0:
             self._requested_position = 0
             await self.device.async_close()
 
     @override
-    async def async_set_cover_tilt_position(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
+    async def async_set_cover_position(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
         pos = int(kwargs[ATTR_TILT_POSITION])  # pyright:ignore[reportAny]
         if self._position != pos:
             self._requested_position = pos
             await self.device.async_open(pos)
 
     @override
-    async def async_stop_cover_tilt(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
+    async def async_stop_cover(self, **kwargs: Any) -> None:  # pyright:ignore[reportAny]
         # Do nothing if the motor is not moving.
         if self.device.state_code.is_idle():
             return None

@@ -45,7 +45,7 @@ class SmarwiCover(SmarwiEntity, CoverEntity):
     entity_description = CoverEntityDescription(
         key="cover",
         device_class=CoverDeviceClass.GATE,
-    )  # pyright:ignore[reportCallIssue]
+    )
 
     _attr_supported_features = (
         CoverEntityFeature.OPEN
